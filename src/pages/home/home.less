@@ -1,0 +1,431 @@
+@import (reference) "../../style/mixin.less";
+
+  .container{
+    height: calc(~"100% - 50px");
+    margin: 15px 15px 0px;
+    .card-info{
+      .title{
+        background-color:#464646;
+        color: #ffffff;
+        padding: 10px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        font-size: 2rem;
+        i{
+            color: @base-color;
+        }
+      }
+      .info-flex{
+        background-color: #fff;
+        border:1px solid #e4e4e4;
+        border-top: none;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        align-items: stretch;
+        text-align: center;
+        padding: 1.2rem 0;  
+        .am-flexbox-item{
+            margin-left: 0px;
+        }
+        .number{
+          color: @base-color;
+          align-items: flex-start;
+          line-height: 30px;
+          font-size: 1.6rem;
+          i{
+              color: #858585;
+              font-size: 1.5rem;
+          }
+  
+        }   
+        .describe{
+          color: #303030;
+          line-height: 20px;
+          font-size: 1.4rem;
+        }
+      }
+     
+    }
+    .notice-bar{
+      background-color: #fff;
+      border:1px solid #e4e4e4;
+      border-radius: 5px;
+      padding: 1rem;
+      .notice-icon{
+        flex:0 0 20px;
+        .commonBack(@url:"notice.png");
+        height: 20px;
+      }
+      .notice-content{
+        flex: 1;
+        font-size: 1.4rem;
+        color: #303030;
+        margin: 0 0.5rem;
+        li{
+          position: relative;
+          padding-left: 0.5rem;
+          line-height: 1.4rem;
+          &:after{
+            content: "";
+            width: 0.2rem;
+            height: 0.2rem;
+            background: #303030;
+            border-radius: 50%;
+            position: absolute;
+            top: 0.75rem;
+            left: 0;
+          }
+          span{
+            display: inline-block;
+            overflow: hidden;
+            &:first-child{
+              width: 65%;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+            &:last-child{
+              width: 60px;
+            }
+          }
+        }  
+      }
+      .notice-right{
+        position: relative;
+        i{
+          position: absolute;
+          top: 6px;
+          right: 19px;
+          width: 10px;
+          height: 10px;
+          background: #f95a5a;
+          border-radius: 50%;
+          display: inline-block;
+        }
+      }
+    }   
+
+    .advertising{
+      border-radius: 5px;
+      .commonBack(@url:"card.jpg");
+      height: 8rem;
+    }
+    .shopping{
+      .am-flexbox-item{
+        a{
+          display: flex;
+          background-color: #c59b61;
+          border-radius: 5px;
+          height: 7.5rem;
+          justify-content:center;
+          align-items: center;
+        }
+        i{
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+          display: inline-block;
+          margin-right: 0.5rem;
+          .commonBackBg(@url:"icon1.png");
+        }
+        .icon2{
+          .commonBackBg(@url:"icon2.png");
+        }
+        a{
+          font-size: 1.5rem;
+          color: #fff;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .promote-link{
+      div{
+        flex: 1;
+        margin-left: 0.5rem;
+        &:first-child{
+          flex: 2;
+          margin-left: 0;
+        }
+        .am-list-item{
+          border:1px solid#e4e4e4;
+          border-radius: 5px;
+          font-size: 1.4rem;
+        }
+        .am-button{
+          color: @base-color;
+          border:1px solid @base-color;
+          font-size: 1.4rem;
+          height: 42px;
+          line-height: 42px;
+        }
+      }
+
+    }
+  }
+
+  @font-face {
+    font-family: 'iconfont';
+    src: url('../../assets/iconfont/iconfont.eot');
+    src: url('../../assets/iconfont/iconfont.eot?#iefix') format('embedded-opentype'),
+    url('../../assets/iconfont/iconfont.woff') format('woff'),
+    url('../../assets/iconfont/iconfont.ttf') format('truetype'),
+    url('../../assets/iconfont/iconfont.svg#iconfont') format('svg');
+  }
+  .iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  //购买房卡
+  .buycard{
+    p{
+      font-size: 1.4rem;
+    }
+    .btn-all{
+      margin-top: 2rem;
+    }
+    .payment{
+      font-size: 1.6rem;
+      background: #fff;
+      border: 1px solid #e4e4e4;
+      padding: 1rem;
+      border-radius: 5px;
+      .iconfont{
+        color: #0bb048;
+        font-size: 2rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+  .buy-title{
+    background-color: #464646;
+    color: #fff;
+    padding: 1rem;
+    font-size: 1.4rem;
+  }
+  .buy-ul{
+    display: flex;
+    flex-wrap: wrap;
+   li{
+    width: 48%;
+    background: #fff;
+    border: 1px solid #ff6f7d;
+    color: #ff6f7d;
+    text-align: center;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    box-sizing:border-box;
+    padding: 1.5rem 0.2rem;
+    margin-right: 4%;
+    &:nth-child(2n+2){
+      margin-right: 0%;
+    }
+    span{
+      font-size: 1.8rem;
+    }
+    p{
+      font-size: 1.3rem;
+    }
+   }
+   .active{
+     background: #ff6f7d;
+     color: #fff;
+   }
+  }
+
+
+  //分配
+  .cards-item{
+    margin-top: 1rem;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+    overflow: hidden;
+    .cards-title{
+        background-color: #fff;
+        padding: 0.5rem 0.9rem;
+        font-size: 1.4rem;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        line-height: 2rem;
+        border-bottom: 1px solid #eaeaea;
+        em{
+          background: #ff6f7d;
+          color: #fff;
+          border-radius: 20px;
+          padding: 0.2rem 1.5rem;
+          margin-bottom: 0.4rem;
+          display: inline-block;
+        }
+        i{
+          color: #ff6f7d;
+          margin-right: 1rem;
+        }
+    }
+}
+
+.cards-all{
+  background: #fff;
+  padding: 0.8rem;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  li{
+    display: flex;
+    border-bottom: 1px solid #eaeaea;
+    padding: 0.8rem 0;
+    align-items:center;
+    span{
+        flex: 1;
+        &:first-child{
+          margin-right: 1rem;
+          flex: 0 0 60px;
+          img{
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+          }
+        }
+        i{
+          font-size: 1.4rem;
+          line-height: 1.8rem;
+          display: block;
+        }
+        em{
+          color: #dbd9d9;
+          font-size: 1.4rem;
+        }
+    }
+  }
+}
+
+//购买记录
+.buyhistory-con{
+  background: #fff;
+  li{
+    border-bottom: 1px solid #eaeaea;
+    align-items:center;
+    padding: 0.8rem;
+    line-height: 1.6rem;
+    font-size: 1.4rem;
+    div{
+      display: flex;
+      span{
+        flex: 1;
+        &:last-child{
+          color: #ff6f7d;
+          text-align: right;
+        }
+      }
+      &:last-child{
+        color: #dbd9d9;
+      }
+    }
+  }
+}
+//进行分配
+.room-ul{
+  display: flex;
+  font-size: 1.4rem;
+  li{
+    border: 1px solid #e4e4e4;
+    background: #fff;
+    width: 30%;
+    margin-right: 5%;
+    padding: 0.5rem;
+    &:last-child{
+      margin-right: 0px;
+    }
+    .span-img{
+      background: #fffadf;
+      display: inline-block;
+      padding: 0.5rem;
+      img{
+        width: 100%;
+        height: 100%;;
+      }
+    }
+    div{
+      line-height: 1.6rem;
+      text-align: center;
+      margin-top: 0.5rem;
+      span{
+        color: #ff6f7d;
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+//消息页面
+.notice-ul{
+  li{
+    margin-bottom: 1rem;
+  }
+  a{
+    display: block;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 5px;
+    color: #969696;
+    font-size: 1.4rem;
+    div{
+      margin-bottom: 0.5rem;
+      span{
+        color: #000000
+      }
+      time{
+
+      }
+    }
+    p{
+      line-height: 1.8rem;
+    }
+  }
+}
+//消息详情页
+.nd-con{
+  background: #fff;
+  border-radius: 5px;
+  font-size: 1.4rem;
+  padding: 1rem;
+  line-height: 1.8rem;
+  color: #969696;
+  .title{
+    color: #000;
+    font-size: 1.4rem;
+  }
+  time{
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+  p{
+    text-indent: 2rem;
+  }
+}
+//二维码页面
+.code-border{
+  border: 1px solid #cccc;
+  width: 240px;
+  margin: auto;
+  padding: 10px;
+  img{
+    width: 50px;
+    height: 50px;
+    background: red;
+    float: left;
+    margin-right: 10px;
+  }
+  span{
+    font-size: 1.4rem;
+    float: left;
+    padding-top: 5px;
+    em{
+      display: block;
+      line-height: 20px;
+    }
+  }
+  canvas{
+    margin: 10px;
+  }
+}
