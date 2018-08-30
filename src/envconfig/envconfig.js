@@ -9,4 +9,4 @@ if(process.env.NODE_ENV === 'development'){
   baseURL = '//test.pms.harbourhome.com.cn';
 }
 
-export {imgUrl, baseURL}
+export default {imgUrl, baseURL}

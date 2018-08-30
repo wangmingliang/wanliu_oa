@@ -6,7 +6,8 @@ import { is, fromJS } from 'immutable';
 import mixin, { padStr } from '@/utils/mixin';
 // import { Link } from "react-router-dom";
 import { WhiteSpace, Flex, Toast } from 'antd-mobile';
-import { getCommunitys, getLoudongs, getRooms } from './js/index';
+// import { getLoudongs, getRooms, API } from './js/index';
+import API from './js/index';
 import WMLUtil from '@/utils/util';
 
 import './sass/index.scss';
@@ -56,7 +57,7 @@ class Home extends Component {
   // }
   componentDidMount() {
     // history.push("/code");
-    getCommunitys({}).then(res=>{
+    API.getCommunitys({}).then(res=>{
       if(res.status.code==200){
         this.setState({ tab_communitys: res.result.list }, ()=>{
           res.result.list&&res.result.list.length>0&&this.chooseCommunitys(0);
@@ -106,7 +107,8 @@ class Home extends Component {
       });
 
     }else{
-      getLoudongs({"params":{"houseItemId": tab_communitys[i].id}}).then(res=>{
+      API.getLoudongs({"params":{"houseItemId": tab_communitys[i].id}}).then(res=>{
+        console.log(res);
         if(res.status.code==200){
           lou_dong_cache[tab_communitys[i].id] = res.result.list;
           this.setState({lou_dongs: res.result.list, lou_dong_cache}, ()=>{
@@ -127,7 +129,7 @@ class Home extends Component {
     this.setState({lou_dongs_active: i, show_tab: ""});
     Toast.loading('数据加载中...');
     // 请求房源
-    getRooms({houseItemId: tab_communitys[tab_communitys_active].id, louNo: lou_dongs[i].name}).then(res=>{
+    API.getRooms({houseItemId: tab_communitys[tab_communitys_active].id, louNo: lou_dongs[i].name}).then(res=>{
 
       console.log(res);
       if(res.status.code==200){

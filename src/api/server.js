@@ -1,5 +1,5 @@
 import axios from 'axios';
-import envconfig from '@/envconfig/envconfig';
+import envconfig from '@/envconfig/envconfig.js';
 /**
  * 主要params参数
  * @params method {string} 方法名

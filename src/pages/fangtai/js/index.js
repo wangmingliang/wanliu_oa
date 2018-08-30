@@ -1,57 +1,60 @@
-import { baseURL } from '@/envconfig/envconfig.js';
-import { post } from '@/utils/request';
 import { storage } from '@/utils/storage';
+import Server from '@/api/server';
 
-/**
- * 获取社区列表
- * @param params {  }
- * @returns {Promise<*>}
- */
-export function getCommunitys(params={}) {
-  return (async () => {
-    const user = storage.getSession("user");
-    params = Object.assign(params, user);
-    const response = await post(`${baseURL}/v2/item/house_item/get_list`, params);
-    const _data = await response.json();
-    return new Promise((resolve, reject) => {
-      if (response.status < 300) {
-          resolve(_data);
-      } else {
-          reject(_data);
-      }
-    });
-  })();
-}
+class API extends Server {
+  /**
+   * 获取社区列表
+   * @param params {  }
+   * @returns {Promise<*>}
+   */
+  async getCommunitys(params = {}){
+    try{
+      const user = storage.getSession("user");
+      params = Object.assign(params, user);
+      let result = await this.axios({url: `/v2/item/house_item/get_list`, data:params, method: 'post'});
+      return new Promise((resolve, reject) => {
+        resolve(result);
+      });
+    }catch(err){
+      throw err;
+    }
+  }
 
-//
-export function getLoudongs(params={}) {
-  return (async () => {
-    const user = storage.getSession("user");
-    params = Object.assign(params, user);
-    const response = await post(`${baseURL}/v2/item/house_lou_dong/get_list`, params);
-    const _data = await response.json();
-    return new Promise((resolve, reject) => {
-      if (response.status < 300) {
-        resolve(_data);
-      } else {
-        reject(_data);
-      }
-    });
-  })();
-}
+  /**
+   * 获取楼栋
+   * @param params
+   * @returns {Promise<any>}
+   */
+  async getLoudongs(params = {}){
+    try{
+      const user = storage.getSession("user");
+      params = Object.assign(params, user);
+      let result = await this.axios({url: `/v2/item/house_lou_dong/get_list`, data:params, method: 'post'});
+      return new Promise((resolve, reject) => {
+        resolve(result);
+      });
+    }catch(err){
+      throw err;
+    }
+  }
 
-export function getRooms(params){
-  return (async () => {
-    const user = storage.getSession("user");
-    params = Object.assign(params, user);
-    const response = await post(`${baseURL}/v2/house/focus_house/get_list`, params);
-    const _data = await response.json();
-    return new Promise((resolve, reject) => {
-      if (response.status < 300) {
-        resolve(_data);
-      } else {
-        reject(_data);
-      }
-    });
-  })();
+  /**
+   * 获取房源
+   * @param params
+   * @returns {Promise<any>}
+   */
+  async getRooms(params = {}){
+    try{
+      const user = storage.getSession("user");
+      params = Object.assign(params, user);
+      let result = await this.axios({url: `/v2/house/focus_house/get_list`, data:params, method: 'post'});
+      return new Promise((resolve, reject) => {
+        resolve(result);
+      });
+    }catch(err){
+      throw err;
+    }
+  }
+
 }
+export default new API();

@@ -87,7 +87,10 @@ export function post(url, body = {}) {
   return fetch(url, {
     // ...defaultParams,
     method: 'post',
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type':'application/json'
+    }
   });
 }
 

@@ -11,8 +11,9 @@ import './style/base.scss';
 import Loading from '@/components/loading/Loading';
 import { storage } from "./utils/storage";
 import { get as apiGet } from '@/utils/request';
-import { baseURL } from '@/envconfig/envconfig.js';
+import envconfig from '@/envconfig/envconfig.js';
 import { Toast } from 'antd-mobile';
+
 
 FastClick.attach(document.body);
 
@@ -24,7 +25,7 @@ FastClick.attach(document.body);
 
 function getUser(search='') {
   return (async () => {
-    const response = await apiGet(`${baseURL}/v2/jjr_user_oa_login/oa_login_simple${search}`, );
+    const response = await apiGet(`${envconfig.baseURL}/v2/jjr_user_oa_login/oa_login_simple${search}`, );
     const _data = await response.json();
     return new Promise((resolve, reject) => {
       if (response.status < 300) {
@@ -41,13 +42,12 @@ const render = Component => {
     renderLoading();
     // setTimeout(()=>{
     //   storage.setSession('user', {
-    //     token:"cce6dd9e-d3c0-44a4-bb6c-5fc329532b20",
-    //     userid:"FEB43DF5KD2DFW411DQAD5612362B9EE3421",
+    //     token:"eeaa1900-8494-4d54-a15a-f65cdd52aec2",
+    //     userid:"C3C2E3F4JBCFE94C40QA9407C179D3DB605D",
     //     gcid: "021137",
     //   });
     //   renderDom();
     // }, 5000);
-    // const params = getUrlParams(window.location.href);
     getUser(window.location.search).then(res => {
       if(res.status.code==200){
         // 登录成功
