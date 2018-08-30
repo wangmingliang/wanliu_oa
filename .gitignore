@@ -24,4 +24,13 @@ yarn-error.log*
 package-lock.json
 yarn.lock
 
-dist
+#dist
+#bin
+#config
+#public
+#scripts
+#src
+#.babelrc
+#.editorconfig
+#LICENSE
+package-lock.json
