@@ -39,15 +39,14 @@ var isdev = process.env.NODE_ENV === 'development';
 
 var static_path = path.join(__dirname, 'dist');
 var public_path = path.join(__dirname, 'dist');
-console.log(isdev);
-if (isdev) {
-    app.use(express.static(public_path))
-        .use('/dist', express.static(static_path))
-        .get('*', function (req, res) {
-            console.log(req);
-            res.sendFile(path.join(__dirname, 'dist/index.html'));
-        });
-}
+// if (isdev) {
+app.use(express.static(public_path))
+    .use('/dist', express.static(static_path))
+    .get('*', function (req, res) {
+
+        res.sendFile(path.join(__dirname, 'dist/index.html'));
+    });
+// }
 
 
 
