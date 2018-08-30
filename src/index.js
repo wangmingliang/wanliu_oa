@@ -12,6 +12,7 @@ import Loading from '@/components/loading/Loading';
 import { storage } from "./utils/storage";
 import { get as apiGet } from '@/utils/request';
 import { baseURL } from '@/envconfig/envconfig.js';
+import { Toast } from 'antd-mobile';
 
 FastClick.attach(document.body);
 
@@ -47,15 +48,18 @@ const render = Component => {
     //   renderDom();
     // }, 5000);
     // const params = getUrlParams(window.location.href);
-    console.log('window.location.search=========', window.location.search);
     getUser(window.location.search).then(res => {
-      console.log('user=========', res);
-      storage.setSession('user', {
-        token:"cce6dd9e-d3c0-44a4-bb6c-5fc329532b20",
-        userid:"FEB43DF5KD2DFW411DQAD5612362B9EE3421",
-        gcid: "021137",
-      });
-      renderDom();
+      if(res.status.code==200){
+        // 登录成功
+        storage.setSession('user', {
+          token: res.result.id,
+          userid: res.result.token,
+          gcid: "021137",
+        });
+        renderDom();
+      }else{
+        Toast.info(res.status.msg||'登录失败',2)
+      }
     }).catch(err=>{
       console.log(err);
     });
