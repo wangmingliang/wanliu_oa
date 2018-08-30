@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import { is, fromJS } from 'immutable';
 // import PropTypes from 'prop-types';
@@ -8,7 +7,7 @@ import { connect } from 'react-redux';
 import history from '../../utils/history';
 import moment from "moment";
 import mixin, { padStr } from '@/utils/mixin';
-// import './home.less';
+import './sass/home.scss';
 import { Link } from "react-router-dom";
 import { WhiteSpace, Flex, Icon, InputItem, Button } from 'antd-mobile';
 import { getInfo } from './homeData'
@@ -51,8 +50,8 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
-        ========
+      <div className="home-view">
+        ========<Link to="/ft">跳转房态</Link>
       </div>
     );
   }

@@ -6,8 +6,9 @@ import registerServiceWorker from './registerServiceWorker';
 import { AppContainer } from 'react-hot-loader';
 import {Provider} from 'react-redux';
 import store from '@/store/store';
-import './utils/setRem';
-import './style/base.less';
+// import './utils/setRem';
+import './style/base.scss';
+// import './assets/libs/flexible/flexible.js';
 
 FastClick.attach(document.body);
 
@@ -18,6 +19,7 @@ FastClick.attach(document.body);
 
 
 const render = Component => {
+  console.log('init..............')
   ReactDOM.render(
     //绑定redux、热加载
     <Provider store={store}>

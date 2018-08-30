@@ -1,0 +1,152 @@
+$rem: 75;
+@import "@/style/base.scss";
+
+.fangtai-view{
+  background: #F7F7F7;
+  width: 100%;
+  color: #6E6E6E;
+  .tabs{
+    background: #fff;
+    box-sizing: border-box;
+    height: 82rem/$rem;
+    line-height: 82rem/$rem;
+    padding: 0 30rem/$rem;
+    z-index: 9999;
+    position: relative;
+
+    .tab{
+      width: 300rem/$rem;
+      float: left;
+      font-size: 26rem/$rem;
+      box-sizing: border-box;
+      padding-right: 20rem/$rem;
+      position: relative;
+      margin-right: 10rem/$rem;
+      text-align: center;
+      color: #6E6E6E;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:after{
+        border-left: 8rem/$rem solid transparent;
+        border-right: 8rem/$rem solid transparent;
+        border-top: 8rem/$rem solid;
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 38rem/$rem;
+      }
+      &.active{
+        color: #017AFD;
+      }
+    }
+
+  }
+  .tab.w15{
+    width: 110rem/$rem;
+    margin-left: 20rem/$rem;
+  }
+  .selects{
+    position: fixed;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #E9E9E9;
+    top: 82rem/$rem;
+    height: 876rem/$rem;
+    overflow-y: auto;
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+    text-align: center;
+    padding: 40rem/$rem 0;
+    li{
+      font-size: 30rem/$rem;
+      line-height: 86rem/$rem;
+      &.active{
+        color: #017AFD;
+      }
+    }
+  }
+  .cont{
+    background: #fff;
+
+  }
+  .modal-mask{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+    height: 100%;
+    z-index: 1000;
+    filter: alpha(opacity=50);
+  }
+
+  .cont{
+    padding: 0 30rem/$rem;
+    .title{
+      height: 84rem/$rem;
+      box-sizing: border-box;
+      padding-top: 30rem/$rem;
+      position: relative;
+
+      .ico{
+        float: left;
+        @include bg-box('../images/community.png', 24rem/$rem, 23rem/$rem);
+      }
+      span{
+        font-size: 26rem/$rem;
+        margin-left: 18rem/$rem;
+      }
+      &:before{
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        border-top: 1px solid #E9E9E9;
+        content: " ";
+        -webkit-transform: scaleY(0.5);
+        transform: scaleY(0.5);
+      }
+    }
+    .list{
+      .flow{
+        width: 100%;
+        text-align: center;
+        font-size: 32rem/$rem;
+        padding: 18rem/$rem 0 24rem/$rem;
+      }
+      .room{
+        box-sizing: border-box;
+        background: #81BEFF;
+        width:122rem/$rem;
+        height:82rem/$rem;
+        border-radius:8rem/$rem;
+        overflow: hidden;
+        margin-right: 16rem/$rem;
+        margin-bottom: 40rem/$rem;
+        color: #fff;
+        padding: 12rem/$rem 10rem/$rem;
+        .r1{
+          position: relative;
+        }
+        .s_ico{
+          @include bg-box('../images/lock.png', 13rem/$rem, 16rem/$rem)
+          position: absolute;
+          top: 5rem/$rem;
+          right: 0
+        }
+        .r2{
+          margin-top: 12rem/$rem;
+        }
+      }
+    }
+  }
+}
