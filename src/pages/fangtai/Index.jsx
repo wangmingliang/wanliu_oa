@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { is, fromJS } from 'immutable';
 // import PropTypes from 'prop-types';
-import history from '@/utils/history';
+// import history from '@/utils/history';
 import mixin, { padStr } from '@/utils/mixin';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { WhiteSpace, Flex, Toast } from 'antd-mobile';
 import { getCommunitys, getLoudongs, getRooms } from './js/index';
 import WMLUtil from '@/utils/util';
@@ -28,30 +28,35 @@ class Home extends Component {
       lou_dong_cache: {},  // 楼栋缓存
       lou_dongs: [], // 当前社区下的楼栋
       lou_dongs_active: '', // 选中的楼栋
-      louceng_rooms: {} // {楼层：房间列表}
+      louceng_rooms: {}, // {楼层：房间列表}
+      room_status:{
+        "193604ec-ff4d-488c-b1bd-9b247645b028":"wating", // 待租
+        "4819f760-7dbc-42ab-af61-e5a25e8878de":"rent", // 成租
+        "6b5b48fa-eec4-4418-b999-660a0a89e33a":"book", // 预定
+        "753f0e62-0059-4ce8-9b26-88d9c0ff45fe":"in_configuration", // 配置中
+        "ac465406-10ca-4075-98b6-7c96bfbe13b7":"pending_configuration", // 待配置
+        "2d706952-a87c-4d49-85fd-6caea815dbb4":"invalid", // 无效
+        "018aeafb-fb9b-41d6-a19b-8f0f5c184fcd":"renege", // 违约
+        "46f466fd-9127-46b1-8b62-7077b44aeaf7":"returned"  // 已退
+      }
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // componentWillReceiveProps(nextProps) {
     // if(!is(fromJS(this.props.proData), fromJS(nextProps.proData))){
     //   this.initData(nextProps);
     // }
-  }
+  // }
 
   // shouldComponentUpdate(nextProps, nextState) {
   //   return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
   // }
 
-  componentWillMount() {
-  }
+  // componentWillMount() {
+  // }
   componentDidMount() {
     // history.push("/code");
-    // getInfo(2).then(data => {
-    //   console.log(data)
-    //   this.setState({ pager: data.data });
-    // })
-    getCommunitys({pageSize: 200}).then(res=>{
-      console.log(res);
+    getCommunitys({}).then(res=>{
       if(res.status.code==200){
         this.setState({ tab_communitys: res.result.list }, ()=>{
           res.result.list&&res.result.list.length>0&&this.chooseCommunitys(0);
@@ -117,17 +122,18 @@ class Home extends Component {
 
   }
   chooseLoudong(i){
-    console.log(i);
     const { tab_communitys, tab_communitys_active, lou_dongs } = this.state;
     this.setBodyOverflow(false);
     this.setState({lou_dongs_active: i, show_tab: ""});
     Toast.loading('数据加载中...');
     // 请求房源
     getRooms({houseItemId: tab_communitys[tab_communitys_active].id, louNo: lou_dongs[i].name}).then(res=>{
+
       console.log(res);
-      Toast.hide();
       if(res.status.code==200){
-        this.setState({louceng_rooms: this.formatLoucengRoom(res.result.list)})
+        this.setState({louceng_rooms: this.formatLoucengRoom(res.result.list)}, ()=>{
+          Toast.hide();
+        });
       }else{
         Toast.info(res.status.msg||"获取房源数据失败", 2);
       }
@@ -146,7 +152,6 @@ class Home extends Component {
       }
     }
 
-    console.log(backVal);
     return backVal;
   }
   renderSelectContent(){
@@ -160,19 +165,19 @@ class Home extends Component {
         break;
       case "tab_lou_dongs":
         returnVal = lou_dongs.map((d, i)=>{
-          return <li key={i} className={lou_dongs_active===i ? 'active' : ''} onClick={this.chooseLoudong.bind(this,i)}>{d.name}</li>
+          return <li key={i} className={lou_dongs_active===i ? 'active' : ''} onClick={this.chooseLoudong.bind(this,i)}>{d.name}楼</li>
         });
         break;
     }
     return returnVal;
   }
   renderRomm(key){
-    const { louceng_rooms } = this.state;
+    const { louceng_rooms, room_status } = this.state;
     return louceng_rooms[key] ? louceng_rooms[key].map((room, i)=>{
-      return <div className="room" key={i}>
+      return <div className={`room ${room_status[room.zhuangtai.mark]}`} key={i}>
         <div className="r1">
           <span>{room.fangNo}</span>
-          <i className="s_ico"></i>
+          <i className="s_ico hide"></i>
         </div>
         <div className="r2">
           <span>¥{room.zujin}</span>
@@ -202,7 +207,7 @@ class Home extends Component {
             }
           </ul>
         </div>
-        <WhiteSpace></WhiteSpace>
+        <WhiteSpace size="lg"></WhiteSpace>
         <div className="cont">
           <div className="title">
             <i className="ico"></i>

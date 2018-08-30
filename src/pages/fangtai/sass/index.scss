@@ -1,5 +1,5 @@
 $rem: 75;
-@import "@/style/base.scss";
+@import "../../../style/base.scss";
 
 .fangtai-view{
   background: #F7F7F7;
@@ -117,6 +117,7 @@ $rem: 75;
       }
     }
     .list{
+      padding: 30rem/$rem 0;
       .flow{
         width: 100%;
         text-align: center;
@@ -134,6 +135,7 @@ $rem: 75;
         margin-bottom: 40rem/$rem;
         color: #fff;
         padding: 12rem/$rem 10rem/$rem;
+        font-weight: 400;
         .r1{
           position: relative;
         }
@@ -147,6 +149,18 @@ $rem: 75;
           margin-top: 12rem/$rem;
         }
       }
+    }
+    .book{
+      background: #F69D62!important;
+    }
+    .rent{
+      background: #F17272!important;
+    }
+    .in_configuration{
+      background: #F7C733!important;
+    }
+    .invalid{
+      background: #CBCBCB!important;
     }
   }
 }

@@ -1,12 +1,12 @@
 var storage = {
-  set : function(key,value){
+  setLocal: function(key,value){
     if(window.localStorage){
       localStorage.setItem(key,JSON.stringify(value));
     }else{
       cook.setCookie(key,value);
     }
   },
-  get : function(key){
+  getLocal : function(key){
     if(window.localStorage){
       var data = localStorage.getItem(key);
       var dataObj = JSON.parse(data);
@@ -16,9 +16,34 @@ var storage = {
       return val;
     }
   },
-  remove: function (key) {
+  removeLocal: function (key) {
     if(window.localStorage){
       localStorage.removeItem(key);
+    }else{
+      cook.clearCookie(key);
+    }
+    return -1;
+  },
+  setSession: function(key,value){
+    if(window.localStorage){
+      sessionStorage.setItem(key,JSON.stringify(value));
+    }else{
+      cook.setCookie(key,value);
+    }
+  },
+  getSession : function(key){
+    if(window.sessionStorage){
+      var data = sessionStorage.getItem(key);
+      var dataObj = JSON.parse(data);
+      return dataObj;
+    }else{
+      var val = cook.getCookie(key);
+      return val;
+    }
+  },
+  removeSession: function (key) {
+    if(window.sessionStorage){
+      sessionStorage.removeItem(key);
     }else{
       cook.clearCookie(key);
     }

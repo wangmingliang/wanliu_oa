@@ -11,9 +11,9 @@ export default class RouteConfig extends Component{
     return(
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={home} />
+          {/*<Route path="/" exact component={home} />*/}
           <Route path="/ft" exact component={Fangtai} />
-          <Redirect to="/" />
+          <Redirect to="/ft" />
         </Switch>
       </Router>
     )
