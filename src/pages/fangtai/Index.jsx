@@ -8,11 +8,9 @@ import mixin, { padStr } from '@/utils/mixin';
 import { WhiteSpace, Flex, Toast } from 'antd-mobile';
 // import { getLoudongs, getRooms, API } from './js/index';
 import API from './js/index';
-import WMLUtil from '@/utils/util';
-
 import './sass/index.scss';
+import Empty from '@/components/empty/Empty.jsx';
 
-const wmlUtil = new WMLUtil();
 
 @mixin({ padStr })
 class Home extends Component {
@@ -39,7 +37,30 @@ class Home extends Component {
         "2d706952-a87c-4d49-85fd-6caea815dbb4":"invalid", // 无效
         "018aeafb-fb9b-41d6-a19b-8f0f5c184fcd":"renege", // 违约
         "46f466fd-9127-46b1-8b62-7077b44aeaf7":"returned"  // 已退
-      }
+      },
+      house_status:{
+        wating: {
+          code: '20',
+          txt: '可租'
+        },
+        rent: {
+          code: '40',
+          txt: '成租'
+        },
+        book: {
+          code: '30',
+          txt: '预定'
+        },
+        in_configuration: {
+          code: '11',
+          txt: '配置'
+        },
+        invalid: {
+          code: '60',
+          txt: '无效'
+        }
+      },
+      house_status_active: '' // 选中的房源状态，key值
     };
   }
 
@@ -124,14 +145,16 @@ class Home extends Component {
 
   }
   chooseLoudong(i){
-    const { tab_communitys, tab_communitys_active, lou_dongs } = this.state;
     this.setBodyOverflow(false);
-    this.setState({lou_dongs_active: i, show_tab: ""});
+    this.setState({lou_dongs_active: i, show_tab: ""}, ()=>{
+      this.getData();
+    });
+  }
+  getData(){
+    const { tab_communitys, tab_communitys_active, lou_dongs, lou_dongs_active, house_status_active, house_status } = this.state;
     Toast.loading('数据加载中...');
     // 请求房源
-    API.getRooms({houseItemId: tab_communitys[tab_communitys_active].id, louNo: lou_dongs[i].name}).then(res=>{
-
-      console.log(res);
+    API.getRooms({houseItemId: tab_communitys[tab_communitys_active].id, louNo: lou_dongs[lou_dongs_active].name, houseStatus: house_status_active?house_status[house_status_active].code:""}).then(res=>{
       if(res.status.code==200){
         this.setState({louceng_rooms: this.formatLoucengRoom(res.result.list)}, ()=>{
           Toast.hide();
@@ -147,28 +170,58 @@ class Home extends Component {
   formatLoucengRoom(list=[]){
     const backVal = {};
     for(var i=0; i<list.length; i++){
+      var _temp = {
+        fangNo: list[i].fangNo,
+        zhuangtai:{mark:list[i].zhuangtai.mark},
+        zujin: list[i].zujin
+      };
       if(backVal[list[i].loucengA]){
-        backVal[list[i].loucengA].push(list[i]);
+        backVal[list[i].loucengA].push(_temp);
       }else{
-        backVal[list[i].loucengA] = [list[i]];
+        backVal[list[i].loucengA] = [_temp];
       }
     }
 
     return backVal;
   }
+  chooseHouseStatus(k){
+    this.setBodyOverflow(false);
+    this.setState({house_status_active: k, show_tab: ""}, ()=>{
+      this.getData();
+    })
+  }
   renderSelectContent(){
-    const { show_tab, tab_communitys, tab_communitys_active, lou_dongs, lou_dongs_active } = this.state;
+    const { show_tab, tab_communitys, tab_communitys_active, lou_dongs, lou_dongs_active, house_status } = this.state;
     let returnVal = '';
     switch (show_tab){
       case "tab_communitys":
-        returnVal = tab_communitys.map((d, i)=>{
-          return <li key={i} className={tab_communitys_active===i ? 'active' : ''} onClick={this.chooseCommunitys.bind(this,i)}>{d.hiItemName}</li>
-        });
+        returnVal = (<ul className="selects ">
+          {
+            tab_communitys.map((d, i)=>{
+              return <li key={'communitys_'+i} className={tab_communitys_active===i ? 'active' : ''} onClick={this.chooseCommunitys.bind(this,i)}>{d.hiItemName}</li>
+            })
+          }
+        </ul>);
         break;
       case "tab_lou_dongs":
-        returnVal = lou_dongs.map((d, i)=>{
-          return <li key={i} className={lou_dongs_active===i ? 'active' : ''} onClick={this.chooseLoudong.bind(this,i)}>{d.name}楼</li>
-        });
+        returnVal = (<ul className="selects ">
+          {
+            lou_dongs.map((d, i)=>{
+              return <li key={'lou_dongs_'+i} className={lou_dongs_active===i ? 'active' : ''} onClick={this.chooseLoudong.bind(this,i)}>{d.name}楼</li>
+            })
+          }
+        </ul>);
+        break;
+      case "tab_house_status":
+        returnVal = (<div className="selects tab_house_status">
+          <Flex wrap="wrap" className="empty" onClick={this.chooseHouseStatus.bind(this,"")}>不限</Flex>
+          {
+            Object.keys(house_status).map((k, i)=>{
+              return <Flex wrap="wrap" key={"house_status_"+i} className={k} onClick={this.chooseHouseStatus.bind(this,k)}>{house_status[k].txt}</Flex>
+              // <li key={i} className={k} onClick={this.chooseHouseStatus.bind(this,k)}>{house_status[k].txt}</li>
+            })
+          }
+          </div>);
         break;
     }
     return returnVal;
@@ -176,7 +229,7 @@ class Home extends Component {
   renderRomm(key){
     const { louceng_rooms, room_status } = this.state;
     return louceng_rooms[key] ? louceng_rooms[key].map((room, i)=>{
-      return <div className={`room ${room_status[room.zhuangtai.mark]}`} key={i}>
+      return <div className={`room ${room_status[room.zhuangtai.mark]}`} key={"rooms_"+i}>
         <div className="r1">
           <span>{room.fangNo}</span>
           <i className="s_ico hide"></i>
@@ -189,8 +242,11 @@ class Home extends Component {
     :
     '';
   }
+
+
   render() {
-    const {tab_communitys, show_tab, tab_communitys_active, lou_dongs, lou_dongs_active, louceng_rooms } = this.state;
+    const {tab_communitys, show_tab, tab_communitys_active, lou_dongs, lou_dongs_active, louceng_rooms,house_status_active, house_status } = this.state;
+    console.log(1);
     return (
       <div className="fangtai-view">
         <ul className="tabs">
@@ -200,14 +256,15 @@ class Home extends Component {
           <li className="tab w15" onClick={this.handClickChangeTab.bind(this, 'tab_lou_dongs')}>
             <span className="show">{(lou_dongs_active!=='' && lou_dongs[lou_dongs_active]) ? (lou_dongs[lou_dongs_active].name+'楼'):'不限'}</span>
           </li>
+          <li className="tab w15" onClick={this.handClickChangeTab.bind(this, 'tab_house_status')}>
+            <span className="show">{house_status_active?house_status[house_status_active].txt : '不限'}</span>
+          </li>
         </ul>
         <div className={show_tab===''?'hide':''}>
           <div className="modal-mask"></div>
-          <ul className="selects ">
-            {
-              this.renderSelectContent()
-            }
-          </ul>
+          {
+            this.renderSelectContent()
+          }
         </div>
         <WhiteSpace size="lg"></WhiteSpace>
         <div className="cont">
@@ -217,14 +274,21 @@ class Home extends Component {
           </div>
           <div className="list">
             {
-              Object.keys(louceng_rooms).map(key=>{
-                return <div className="row" key={key}>
-                  <div className="flow">{key}层</div>
-                  <Flex wrap="wrap" className="rooms">
-                    {this.renderRomm(key)}
-                  </Flex>
-                </div>
-              })
+              (() => {
+                let _arrs = Object.keys(louceng_rooms);
+                if(_arrs.length===0){
+                  return <Empty desc="暂无数据"></Empty>;
+                }else{
+                  return _arrs.map(key=>{
+                    return <div className="row" key={key}>
+                      <div className="flow">{key}层</div>
+                      <Flex wrap="wrap" className="rooms">
+                        {this.renderRomm(key)}
+                      </Flex>
+                    </div>
+                  });
+                }
+              })()
             }
           </div>
         </div>

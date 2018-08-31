@@ -53,7 +53,7 @@ const render = Component => {
     //     renderDom();
     //   }, timeout);
     //   // renderDom();
-    // }, 5000);
+    // }, 2000);
     getUser(window.location.search).then(res => {
       if(res.status.code==200){
         // 登录成功

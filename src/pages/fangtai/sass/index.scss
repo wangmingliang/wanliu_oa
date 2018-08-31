@@ -1,5 +1,5 @@
-$rem: 75;
 @import "../../../style/base.scss";
+$rem: 75;
 
 .fangtai-view{
   background: #F7F7F7;
@@ -55,6 +55,7 @@ $rem: 75;
     top: 82rem/$rem;
     height: 876rem/$rem;
     overflow-y: auto;
+    box-sizing: border-box;
 
     right: 0;
     bottom: 0;
@@ -63,7 +64,7 @@ $rem: 75;
     -webkit-overflow-scrolling: touch;
     outline: 0;
     text-align: center;
-    padding: 40rem/$rem 0;
+    padding: 40rem/$rem 30rem/$rem;
     li{
       font-size: 30rem/$rem;
       line-height: 86rem/$rem;
@@ -71,10 +72,6 @@ $rem: 75;
         color: #017AFD;
       }
     }
-  }
-  .cont{
-    background: #fff;
-
   }
   .modal-mask{
     position: fixed;
@@ -89,6 +86,7 @@ $rem: 75;
   }
 
   .cont{
+    background: #fff;
     padding: 0 30rem/$rem;
     .title{
       height: 84rem/$rem;
@@ -150,17 +148,36 @@ $rem: 75;
         }
       }
     }
-    .book{
-      background: #F69D62!important;
-    }
-    .rent{
-      background: #F17272!important;
-    }
-    .in_configuration{
-      background: #F7C733!important;
-    }
-    .invalid{
-      background: #CBCBCB!important;
+  }
+  .book{
+    background: #F69D62!important;
+  }
+  .rent{
+    background: #F17272!important;
+  }
+  .in_configuration{
+    background: #F7C733!important;
+  }
+  .invalid, .empty{
+    background: #CBCBCB!important;
+  }
+  .wating{
+    background: #81BEFF!important;
+  }
+
+  .tab_house_status{
+    height: 150rem/$rem;
+    >div{
+      width:98rem/$rem;
+      height:58rem/$rem;
+      border-radius:8rem/$rem;
+      text-align: center;
+      display: block;
+      box-sizing: content-box;
+      line-height: 58rem/$rem;
+      color: #fff;
+      float: left;
+      margin: 0 8rem/$rem;
     }
   }
 }
