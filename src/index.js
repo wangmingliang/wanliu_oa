@@ -40,13 +40,19 @@ function getUser(search='') {
 const render = Component => {
   const initData = ()=>{
     renderLoading();
+    let startTime = Date.now();
     // setTimeout(()=>{
     //   storage.setSession('user', {
     //     token:"eeaa1900-8494-4d54-a15a-f65cdd52aec2",
     //     userid:"C3C2E3F4JBCFE94C40QA9407C179D3DB605D",
     //     gcid: "021137",
     //   });
-    //   renderDom();
+    //
+    //   let timeout = Date.now()-startTime>2000 ? 1000 : (1000+Date.now()-startTime);
+    //   setTimeout(()=>{
+    //     renderDom();
+    //   }, timeout);
+    //   // renderDom();
     // }, 5000);
     getUser(window.location.search).then(res => {
       if(res.status.code==200){
@@ -56,7 +62,12 @@ const render = Component => {
           userid: res.result.token,
           gcid: "021137",
         });
-        renderDom();
+
+        let timeout = Date.now()-startTime>2000 ? 1000 : (1000+Date.now()-startTime);
+        setTimeout(()=>{
+          renderDom();
+        }, timeout);
+
       }else{
         Toast.info(res.status.msg||'登录失败',2)
       }
