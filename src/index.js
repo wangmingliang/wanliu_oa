@@ -58,8 +58,8 @@ const render = Component => {
       if(res.status.code==200){
         // 登录成功
         storage.setSession('user', {
-          token: res.result.id,
-          userid: res.result.token,
+          token: res.result.token,
+          userid: res.result.id,
           gcid: "021137",
         });
 
