@@ -10,7 +10,9 @@ import { WhiteSpace, Flex, Toast } from 'antd-mobile';
 import API from './js/index';
 import './sass/index.scss';
 import Empty from '@/components/empty/Empty.jsx';
+import axios from 'axios';
 
+const CancelToken = axios.CancelToken;
 
 @mixin({ padStr })
 class Home extends Component {
@@ -30,7 +32,7 @@ class Home extends Component {
       louceng_rooms: {}, // {楼层：房间列表}
       room_status:{
         "193604ec-ff4d-488c-b1bd-9b247645b028":"wating", // 待租
-        "4819f760-7dbc-42ab-af61-e5a25e8878de":"rent", // 成租
+        "4819f760-7dbc-42ab-af61-e5a25e8878de":"rent", // 已租
         "6b5b48fa-eec4-4418-b999-660a0a89e33a":"book", // 预定
         "753f0e62-0059-4ce8-9b26-88d9c0ff45fe":"in_configuration", // 配置中
         "ac465406-10ca-4075-98b6-7c96bfbe13b7":"pending_configuration", // 待配置
@@ -45,7 +47,7 @@ class Home extends Component {
         },
         rent: {
           code: '40',
-          txt: '成租'
+          txt: '已租'
         },
         book: {
           code: '30',
@@ -60,7 +62,9 @@ class Home extends Component {
           txt: '无效'
         }
       },
-      house_status_active: '' // 选中的房源状态，key值
+      house_status_active: '', // 选中的房源状态，key值
+      loudong_source: '',  //
+      room_source: '',
     };
   }
 
@@ -118,7 +122,7 @@ class Home extends Component {
    * 选择社区
    */
   chooseCommunitys(i){
-    const { tab_communitys, lou_dong_cache } = this.state;
+    let { tab_communitys, lou_dong_cache, loudong_source } = this.state;
     const lou_dongs = lou_dong_cache[tab_communitys[i].id];
     this.setBodyOverflow(false);
     this.setState({ tab_communitys_active:i, show_tab: "" });
@@ -128,8 +132,11 @@ class Home extends Component {
       });
 
     }else{
-      API.getLoudongs({"params":{"houseItemId": tab_communitys[i].id}}).then(res=>{
-        console.log(res);
+      if(!loudong_source){
+        loudong_source = CancelToken.source();
+        this.setState({loudong_source});
+      }
+      API.getLoudongs({"params":{"houseItemId": tab_communitys[i].id}}, loudong_source).then(res=>{
         if(res.status.code==200){
           lou_dong_cache[tab_communitys[i].id] = res.result.list;
           this.setState({lou_dongs: res.result.list, lou_dong_cache}, ()=>{
@@ -151,10 +158,14 @@ class Home extends Component {
     });
   }
   getData(){
-    const { tab_communitys, tab_communitys_active, lou_dongs, lou_dongs_active, house_status_active, house_status } = this.state;
+    let { tab_communitys, tab_communitys_active, lou_dongs, lou_dongs_active, house_status_active, house_status, room_source } = this.state;
     Toast.loading('数据加载中...');
+    if(!room_source){
+      room_source = CancelToken.source();
+      this.setState({room_source});
+    }
     // 请求房源
-    API.getRooms({houseItemId: tab_communitys[tab_communitys_active].id, louNo: lou_dongs[lou_dongs_active].name, houseStatus: house_status_active?house_status[house_status_active].code:""}).then(res=>{
+    API.getRooms({houseItemId: tab_communitys[tab_communitys_active].id, louNo: lou_dongs[lou_dongs_active].name, houseStatus: house_status_active?house_status[house_status_active].code:""}, room_source).then(res=>{
       if(res.status.code==200){
         this.setState({louceng_rooms: this.formatLoucengRoom(res.result.list)}, ()=>{
           Toast.hide();
@@ -246,7 +257,6 @@ class Home extends Component {
 
   render() {
     const {tab_communitys, show_tab, tab_communitys_active, lou_dongs, lou_dongs_active, louceng_rooms,house_status_active, house_status } = this.state;
-    console.log(1);
     return (
       <div className="fangtai-view">
         <ul className="tabs">

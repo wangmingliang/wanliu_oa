@@ -31,10 +31,10 @@ export default class Server {
       axios(_option).then(res => {
         resolve(typeof res.data === 'object' ? res.data : JSON.parse(res.data))
       },error => {
-        if(error.response){
-            reject(error.response.data)
-        }else{
-            reject(error)
+        if (axios.isCancel(error)) {
+          console.log('Request canceled: ', error.message);
+        } else {
+          reject(error)
         }
       })
     })

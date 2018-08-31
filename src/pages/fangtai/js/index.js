@@ -22,13 +22,17 @@ class API extends Server {
 
   /**
    * 获取楼栋
-   * @param params
+   * @param params, source:axios的source资源
    * @returns {Promise<any>}
    */
-  async getLoudongs(params = {}){
+  async getLoudongs(params = {}, source){
     try{
       const user = storage.getSession("user");
       params = Object.assign(params, user);
+      if(source){
+        source.cancel();
+        params['cancelToken'] = source.token;
+      }
       let result = await this.axios({url: `/v2/item/house_lou_dong/get_list`, data:params, method: 'post'});
       return new Promise((resolve, reject) => {
         resolve(result);
@@ -43,10 +47,14 @@ class API extends Server {
    * @param params
    * @returns {Promise<any>}
    */
-  async getRooms(params = {}){
+  async getRooms(params = {}, source){
     try{
       const user = storage.getSession("user");
       params = Object.assign(params, user);
+      if(source){
+        source.cancel();
+        params['cancelToken'] = source.token;
+      }
       let result = await this.axios({url: `/v2/house/focus_house/get_list`, data:params, method: 'post'});
       return new Promise((resolve, reject) => {
         resolve(result);

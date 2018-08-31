@@ -11,7 +11,6 @@ import './sass/home.scss';
 import { Link } from "react-router-dom";
 import { WhiteSpace, Flex, Icon, InputItem, Button } from 'antd-mobile';
 import { getInfo } from './homeData'
-import FooterBar from '../FooterBar';
 
 @mixin({ padStr })
 class Home extends Component {
