@@ -41,39 +41,39 @@ const render = Component => {
   const initData = ()=>{
     renderLoading();
     let startTime = Date.now();
-    setTimeout(()=>{
-      storage.setSession('user', {
-        token:"043bc922-44a0-4d28-b364-b9bee2a92021",
-        userid:"8f940247f22d468ab23f9e79f7c710d4",
-        gcid: "021137",
-      });
+    // setTimeout(()=>{
+    //   storage.setSession('user', {
+    //     token:"043bc922-44a0-4d28-b364-b9bee2a92021",
+    //     userid:"8f940247f22d468ab23f9e79f7c710d4",
+    //     gcid: "021137",
+    //   });
+    //
+    //   let timeout = Date.now()-startTime>2000 ? 1000 : (1000+Date.now()-startTime);
+    //   setTimeout(()=>{
+    //     renderDom();
+    //   }, timeout);
+    //   // renderDom();
+    // }, 2000);
+    getUser(window.location.search).then(res => {
+      if(res.status.code==200){
+        // 登录成功
+        storage.setSession('user', {
+          token: res.result.token,
+          userid: res.result.id,
+          gcid: "021137",
+        });
 
-      let timeout = Date.now()-startTime>2000 ? 1000 : (1000+Date.now()-startTime);
-      setTimeout(()=>{
-        renderDom();
-      }, timeout);
-      // renderDom();
-    }, 2000);
-    // getUser(window.location.search).then(res => {
-    //   if(res.status.code==200){
-    //     // 登录成功
-    //     storage.setSession('user', {
-    //       token: res.result.token,
-    //       userid: res.result.id,
-    //       gcid: "021137",
-    //     });
-    //
-    //     let timeout = Date.now()-startTime>2000 ? 1000 : (1000+Date.now()-startTime);
-    //     setTimeout(()=>{
-    //       renderDom();
-    //     }, timeout);
-    //
-    //   }else{
-    //     Toast.info(res.status.msg||'登录失败',2)
-    //   }
-    // }).catch(err=>{
-    //   console.log(err);
-    // });
+        let timeout = Date.now()-startTime>2000 ? 1000 : (1000+Date.now()-startTime);
+        setTimeout(()=>{
+          renderDom();
+        }, timeout);
+
+      }else{
+        Toast.info(res.status.msg||'登录失败',2)
+      }
+    }).catch(err=>{
+      console.log(err);
+    });
   }
   const renderDom = ()=>{
     ReactDOM.render(
