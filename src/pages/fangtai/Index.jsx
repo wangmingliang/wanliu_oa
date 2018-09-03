@@ -159,7 +159,7 @@ class Home extends Component {
   }
   getData(){
     let { tab_communitys, tab_communitys_active, lou_dongs, lou_dongs_active, house_status_active, house_status, room_source } = this.state;
-    Toast.loading('数据加载中...');
+    Toast.loading('数据加载中...', 0);
     if(!room_source){
       room_source = CancelToken.source();
       this.setState({room_source});

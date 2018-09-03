@@ -8,7 +8,7 @@ export default class Loading extends Component{
   render(){
     return (
       <div className="page_loading_view">
-        <img src={gif} />
+        <img src={gif} alt=""/>
       </div>
     );
   }

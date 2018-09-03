@@ -1,8 +1,8 @@
 import 'whatwg-fetch';
-import { merge, isArray } from 'lodash';
-import { browserHistory } from 'react-router';
+// import { merge, isArray } from 'lodash';
+// import { browserHistory } from 'react-router';
 
-let __fetch = fetch;
+// let __fetch = fetch;
 export const defaultParams = {
   mode: 'cors',
   credentials: 'include',
