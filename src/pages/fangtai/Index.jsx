@@ -31,14 +31,22 @@ class Home extends Component {
       lou_dongs_active: '', // 选中的楼栋
       louceng_rooms: {}, // {楼层：房间列表}
       room_status:{
-        "193604ec-ff4d-488c-b1bd-9b247645b028":"wating", // 待租
-        "4819f760-7dbc-42ab-af61-e5a25e8878de":"rent", // 已租
-        "6b5b48fa-eec4-4418-b999-660a0a89e33a":"book", // 预定
-        "753f0e62-0059-4ce8-9b26-88d9c0ff45fe":"in_configuration", // 配置中
-        "ac465406-10ca-4075-98b6-7c96bfbe13b7":"pending_configuration", // 待配置
-        "2d706952-a87c-4d49-85fd-6caea815dbb4":"invalid", // 无效
-        "018aeafb-fb9b-41d6-a19b-8f0f5c184fcd":"renege", // 违约
-        "46f466fd-9127-46b1-8b62-7077b44aeaf7":"returned"  // 已退
+        // "193604ec-ff4d-488c-b1bd-9b247645b028":"wating", // 待租
+        // "4819f760-7dbc-42ab-af61-e5a25e8878de":"rent", // 已租
+        // "6b5b48fa-eec4-4418-b999-660a0a89e33a":"book", // 预定
+        // "753f0e62-0059-4ce8-9b26-88d9c0ff45fe":"in_configuration", // 配置中
+        // "ac465406-10ca-4075-98b6-7c96bfbe13b7":"pending_configuration", // 待配置
+        // "2d706952-a87c-4d49-85fd-6caea815dbb4":"invalid", // 无效
+        // "018aeafb-fb9b-41d6-a19b-8f0f5c184fcd":"renege", // 违约
+        // "46f466fd-9127-46b1-8b62-7077b44aeaf7":"returned"  // 已退
+        "20":"wating", // 待租
+        "40":"rent", // 已租
+        "30":"book", // 预定
+        "11":"in_configuration", // 配置中
+        // "ac465406-10ca-4075-98b6-7c96bfbe13b7":"pending_configuration", // 待配置
+        "60":"invalid", // 无效
+        // "018aeafb-fb9b-41d6-a19b-8f0f5c184fcd":"renege", // 违约
+        // "46f466fd-9127-46b1-8b62-7077b44aeaf7":"returned"  // 已退
       },
       house_status:{
         wating: {
@@ -184,7 +192,8 @@ class Home extends Component {
       var _temp = {
         fangNo: list[i].fangNo,
         zhuangtai:{mark:list[i].zhuangtai.mark},
-        zujin: list[i].zujin
+        zujin: list[i].zujin,
+        status: list[i].status
       };
       if(backVal[list[i].loucengA]){
         backVal[list[i].loucengA].push(_temp);
@@ -240,7 +249,7 @@ class Home extends Component {
   renderRomm(key){
     const { louceng_rooms, room_status } = this.state;
     return louceng_rooms[key] ? louceng_rooms[key].map((room, i)=>{
-      return <div className={`room ${room_status[room.zhuangtai.mark]}`} key={"rooms_"+i}>
+      return <div className={`room ${room_status[room.status]}`} key={"rooms_"+i}>
         <div className="r1">
           <span>{room.fangNo}</span>
           <i className="s_ico hide"></i>
