@@ -6,7 +6,7 @@ let imgUrl = '';
 if(process.env.NODE_ENV === 'development'){
   baseURL = '//test.pms.harbourhome.com.cn';
 }else{
-  baseURL = 'https://pms.harbourhome.com.cn';
+  baseURL = 'http://pmsoa.harbourhome.com.cn';
 }
 
 export default {imgUrl, baseURL}
