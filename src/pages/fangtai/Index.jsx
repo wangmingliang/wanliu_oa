@@ -50,7 +50,7 @@ class Home extends Component {
       },
       house_status:{
         wating: {
-          code: '20',
+          code: '21',
           txt: '可租'
         },
         rent: {
